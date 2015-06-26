@@ -14,6 +14,7 @@ ManagementBase(m_sceneName, managementScene)
 
 ManagementTitle::~ManagementTitle()
 {
+	m_pScnene->ImageDelete();
 }
 
 
@@ -41,11 +42,11 @@ void ManagementTitle::UpDate(){
 
 
 	ChangeScene(ManagementScene::ChangeSceneData(
-		ManagementStart::m_sceneName));
+		ManagementStart::m_sceneName, Transition::State::BlackIn, Transition::State::BlackOut));
 }
 
 void ManagementTitle::ImageDelete(){
-	m_pScnene->ImageDelete();
+
 	m_pScnene = nullptr;
 }
 

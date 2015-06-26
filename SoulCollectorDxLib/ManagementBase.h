@@ -21,6 +21,7 @@ class ManagementBase{
 
 		//シーンを切り替えるときに使用
 		void ChangeScene(const ManagementScene::ChangeSceneData& changeSceneData){
+			
 			m_managementScene.ChangeScene(changeSceneData);
 		}
 

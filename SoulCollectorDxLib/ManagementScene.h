@@ -24,12 +24,16 @@ class ManagementScene
 		struct ChangeSceneData{
 
 			ChangeSceneData() = default;
-			ChangeSceneData(const std::string& name) :
-				m_sName(name){}
+			ChangeSceneData(const std::string& name,
+				const Transition::State fadeInState,
+				const Transition::State fadeOutState) :
+				m_name(name),
+				m_fadeInState(fadeInState),
+				m_fadeOutState(fadeOutState){}
 
-			std::string m_sName;
-			Transition::State m_sFadeInState;
-			Transition::State m_sFadeOutState;
+			std::string m_name;
+			Transition::State m_fadeInState;
+			Transition::State m_fadeOutState;
 		};
 
 		void UpDate();
@@ -59,18 +63,21 @@ class ManagementScene
 			eInit,
 			eUpData,
 			ePrevDelete,
-			eFadeOut
+			eFadeOut,
+			eFadeIn
 
 		}eState;
 
 		static eState m_stateScene;
-		static std::shared_ptr<ManagementBase> m_pCurrentScene;
-		static std::shared_ptr<ManagementBase> m_pNextScene;
+		static std::shared_ptr<ManagementBase> m_pCurrentManagement;
+		static std::shared_ptr<ManagementBase> m_pNextManagement;
 
 		static std::unordered_map<std::string, std::shared_ptr<ManagementBase>> m_pSceneData;
+		
 		std::unique_ptr<Transition> m_pFadeIn;
 		std::unique_ptr<Transition> m_pFadeOut;
-
+		void FadeIn();
+		void FadeOut();
 		ChangeSceneData m_changeSceneData;
 };
 

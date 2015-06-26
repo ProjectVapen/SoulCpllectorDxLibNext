@@ -7,7 +7,7 @@
 
 const std::string ManagementBattle::m_sceneName = "Battle";
 
-ManagementBattle::eBattleState ManagementBattle::m_stateBattle = eBattleState::eInitPhase;
+ManagementBattle::eBattleState ManagementBattle::m_stateBattle = eBattleState::eDrawPhase;
 ManagementBattle::eSelect ManagementBattle::m_stateSelect = eSelect::eCardPhase;
 
 
@@ -38,6 +38,7 @@ void ManagementBattle::Init(){
 	m_pBattleMedium = std::make_unique<BattleMedium>();
 	m_pBattlePlayer = std::make_unique<BattlePlayer>();
 	m_pScnene = std::make_unique<SceneBattle>();
+
 	//スタート画面の初期化処理
 	DrawFormatString(0, 10, GetColor(255, 255, 255), "戦闘画面");
 	
@@ -45,8 +46,7 @@ void ManagementBattle::Init(){
 
 bool ManagementBattle::Render(){
 	m_pScnene->Render();
-	m_pBattleEnemy->Render();
-	
+
 	return true;
 }
 
@@ -54,19 +54,20 @@ void ManagementBattle::UpDate(){
 
 	InitPhase();
 
-	if (Render()){
-		DrawPhase();
-		SelectPhase();
-		TurnEnd();
+	
+	DrawPhase();
+	SelectPhase();
+	TurnEnd();
 
-		EnemyPhase();
+	EnemyPhase();
 
-		BattlePhase();
+	BattlePhase();
 
-		EndBattle();
-	}
+	EndBattle();
+	
 
 }
+
 
 void ManagementBattle::InitPhase(){
 	if (ManagementBattle::m_stateBattle != eBattleState::eInitPhase)return;
@@ -164,7 +165,7 @@ void ManagementBattle::EndBattle(){
 
 	ManagementBattle::m_stateBattle = eBattleState::eDrawPhase;
 	ChangeScene(ManagementScene::ChangeSceneData(
-		ManagementStart::m_sceneName));
+		ManagementStart::m_sceneName, Transition::State::BlackIn, Transition::State::BlackOut));
 }
 
 

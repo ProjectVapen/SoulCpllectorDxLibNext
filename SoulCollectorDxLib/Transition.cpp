@@ -1,8 +1,12 @@
 #include "Transition.h"
+#include "Include.h"
 
-
-Transition::Transition()
+Transition::Transition():
+m_fadeInValue(0),
+m_fadeOutValue(255),
+b_fade(true)
 {
+	m_fadeValue = 0;
 }
 
 
@@ -20,26 +24,41 @@ void Transition::UpData(){
 	switch (m_state)
 	{
 
-	case Transition::State::BlackOut:
-		break;
-
 	case Transition::State::BlackIn:
+		MessageBox(NULL, "BlackIn！", "デバッグ", MB_OK);
+		
+		break;
+		
+		
+	case Transition::State::BlackOut:
+		MessageBox(NULL, "BlackOut！", "デバッグ", MB_OK);
 		m_state = State::End;
 		break;
-
+		
+		
 	case Transition::State::WhiteOut:
 
+		break;
 
+	case Transition::State::WhiteIn:
+		break;
 	default:
+		m_state = State::End;
 		break;
 	}
+	
 }
 
 bool Transition::IsEnd(){
+
 	if (m_state == State::End)
 	{
 		m_state = State::None;
 		return true;
 	}
-	return false;
+	else
+	{
+		return false;
+	}
+	
 }

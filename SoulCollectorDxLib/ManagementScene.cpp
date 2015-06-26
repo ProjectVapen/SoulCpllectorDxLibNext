@@ -5,8 +5,8 @@
 #include "DxLib.h"
 
 ManagementScene::eState ManagementScene::m_stateScene = eState::eInit;
-std::shared_ptr<ManagementBase>ManagementScene::m_pCurrentScene = nullptr;
-std::shared_ptr<ManagementBase>ManagementScene::m_pNextScene	= nullptr;
+std::shared_ptr<ManagementBase>ManagementScene::m_pCurrentManagement = nullptr;
+std::shared_ptr<ManagementBase>ManagementScene::m_pNextManagement	= nullptr;
 std::unordered_map<std::string, std::shared_ptr<ManagementBase>>ManagementScene::m_pSceneData;
 
 
@@ -21,7 +21,7 @@ m_changeSceneData(){
 	Register(std::make_shared<ManagementBattle>(*this));
 
 	/*	最初はタイトル画面からスタート	*/
-	m_pCurrentScene = Find(ManagementTitle::m_sceneName);
+	m_pCurrentManagement = Find(ManagementTitle::m_sceneName);
 
 }
 
@@ -64,18 +64,25 @@ std::shared_ptr<ManagementBase> ManagementScene::Find(const std::string& name){
 
 void ManagementScene::ChangeScene(const ChangeSceneData& changeData){
 
-	m_pNextScene = Find(changeData.m_sName);
+	m_pNextManagement = Find(changeData.m_name);
+
+	m_pFadeIn->Start(changeData.m_fadeInState);
+	
 
 	m_changeSceneData = changeData;
+	m_stateScene = eState::eInit;
 
 }
 
 void ManagementScene::Init(){
 	if (m_stateScene != eState::eInit)return;
 
-	m_pCurrentScene->Init();
+	m_pCurrentManagement->Init();
+	m_pCurrentManagement->Render();
 
-
+	m_pFadeOut->Start(m_changeSceneData.m_fadeOutState);
+	
+	
 	m_stateScene = eState::eUpData;
 }
 
@@ -83,24 +90,31 @@ void ManagementScene::Init(){
 void ManagementScene::UpDate(){
 	Init();
 
-	if (m_stateScene!= eState::eUpData)return;
 
-	m_pCurrentScene->Render();
-	m_pCurrentScene->UpDate();
-	
+	if (m_stateScene != eState::eUpData)return;
+
+	/*	フェードイン・アウト処理*/
+	m_pFadeIn->UpData();
+	m_pFadeOut->UpData();
+
+	m_pCurrentManagement->UpDate();
 
 	WaitKey();
-	
-	m_stateScene = eState::ePrevDelete;
-	PrevDelete();
-	m_pCurrentScene = m_pNextScene;
-	m_stateScene = eState::eInit;
+
+	if (m_pFadeOut->IsEnd())
+	{
+		MessageBox(NULL, "NextScene！", "デバッグ", MB_OK);
+		m_stateScene = eState::ePrevDelete;
+		PrevDelete();
+
+		m_pCurrentManagement = m_pNextManagement;
+		m_stateScene = eState::eInit;
+	}
 }
 
 void ManagementScene::PrevDelete(){
 	if (m_stateScene != eState::ePrevDelete)return;
-	m_pCurrentScene->ImageDelete();
+	m_pCurrentManagement->ImageDelete();
 
-	m_stateScene = eState::eInit;
-	
 }
+

@@ -44,7 +44,7 @@ bool ManagementStart::Render(){
 void ManagementStart::UpDate(){
 	//Ø‚è‘Ö‚¦‚È‚Ç‚ÌXVˆ—
 	ChangeScene(ManagementScene::ChangeSceneData(
-		ManagementBattle::m_sceneName));
+		ManagementBattle::m_sceneName, Transition::State::BlackIn, Transition::State::BlackOut));
 }
 
 void ManagementStart::ImageDelete(){
