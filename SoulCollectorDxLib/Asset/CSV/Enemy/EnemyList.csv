@@ -1,0 +1,10 @@
+Slime,1,2,50,20,30,10,Asset/Enemy/Slime.png
+GoblinWarriar,2,1,50,30,10,20,Asset/Enemy/GoblinWarriar.png
+Doriard,3,3,30,10,20,50,Asset/Enemy/Doriard.png
+Undine,4,2,40,10,20,40,Asset/Enemy/Undine.png
+Shytarn,5,1,80,40,70,20,Asset/Enemy/Shytarn.png
+ZombieKnight,6,3,60,40,30,30,Asset/Enemy/ZombieKnight.png
+EvilFlame,7,1,40,10,20,40,Asset/Enemy/EvilFlame.png
+BigShield,8,3,20,20,50,20,Asset/Enemy/BigShield.png
+Orthros,9,1,50,50,40,20,Asset/Enemy/Orthros.png
+Dragon,10,1,120,70,40,30,Asset/Enemy/Dragon.png
