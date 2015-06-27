@@ -71,7 +71,7 @@ void ManagementBattle::InitPhase(){
 	//í“¬‚Ì‰Šú‰»,ˆê“x‚¾‚¯ŒÄ‚Î‚ê‚é
 
 	m_pBattleEnemy->Render();
-
+	m_pBattleMedium->m_DataInit();//medium‚Ì‰Šú‰»
 	ManagementBattle::m_stateBattle = eBattleState::eDrawPhase;
 }
 
@@ -181,7 +181,7 @@ void ManagementBattle::SelectMediumPhase(){
 	cnt--;
 	}
 	*/
-
+	m_pBattleMedium->m_Proc();
 	ManagementBattle::m_stateSelect = eSelect::eEnemyPhase;
 }
 
