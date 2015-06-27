@@ -47,6 +47,9 @@ class ManagementBattle : public ManagementBase
 		}eSelect;
 		static eSelect m_stateSelect;
 
+		int CardCount;		//カードの選択回数
+		int SelectCount;	//媒体の選択回数
+		int selectdata[2];	//媒体にセットするデータ用。増える可能性㈲
 
 		void SelectCardPhase();		//カード選択処理
 		void SelectMediumPhase();	//カードを入れる媒体を選択
@@ -79,7 +82,6 @@ class ManagementBattle : public ManagementBase
 
 		/*	画像解放処理	*/
 		void ImageDelete()override;
-
 
 		static const std::string m_sceneName;
 		

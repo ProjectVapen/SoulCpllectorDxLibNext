@@ -7,7 +7,7 @@
 
 const std::string ManagementBattle::m_sceneName = "Battle";
 
-ManagementBattle::eBattleState ManagementBattle::m_stateBattle = eBattleState::eDrawPhase;
+ManagementBattle::eBattleState ManagementBattle::m_stateBattle = eBattleState::eInitPhase;
 ManagementBattle::eSelect ManagementBattle::m_stateSelect = eSelect::eCardPhase;
 
 
@@ -54,7 +54,6 @@ void ManagementBattle::UpDate(){
 
 	InitPhase();
 
-	
 	DrawPhase();
 	SelectPhase();
 	TurnEnd();
@@ -64,8 +63,6 @@ void ManagementBattle::UpDate(){
 	BattlePhase();
 
 	EndBattle();
-	
-
 }
 
 
@@ -73,7 +70,7 @@ void ManagementBattle::InitPhase(){
 	if (ManagementBattle::m_stateBattle != eBattleState::eInitPhase)return;
 	//戦闘の初期化,一度だけ呼ばれる
 
-	MessageBox(NULL, "戦闘開始！", "デバッグ", MB_OK);
+	m_pBattleEnemy->Render();
 
 	ManagementBattle::m_stateBattle = eBattleState::eDrawPhase;
 }
@@ -86,9 +83,13 @@ void ManagementBattle::DrawPhase(){
 	if (ManagementBattle::m_stateBattle != eBattleState::eDrawPhase)return;
 
 	//ドローの処理
+	
+	m_pBattleCard->BattleCardStandbyPhase();
+	m_pBattleCard->Render();
 
 	ManagementBattle::m_stateBattle = eBattleState::eSelectPhase;
 }
+
 
 void ManagementBattle::SelectPhase(){
 	if (ManagementBattle::m_stateBattle != eBattleState::eSelectPhase)return;
@@ -122,6 +123,75 @@ void ManagementBattle::EnemyPhase(){
 	ManagementBattle::m_stateBattle = eBattleState::eBattlePhase;
 }
 
+
+
+void ManagementBattle::SelectCardPhase(){
+	if (ManagementBattle::m_stateSelect != eSelect::eCardPhase)return;
+
+	//カード選択処理
+
+	/*
+	if (m_pBattleCard->BattleCardSelect_C_Phase(&selectdata[0], &selectdata[1])){
+	CardCount++;
+	std::cout << CardCount << std::endl;
+	if (CardCount == 3){
+	ManagementBattle::m_stateSelect = eSelect::eMediumPhase;
+	}
+	}
+	*/
+
+	ManagementBattle::m_stateSelect = eSelect::eMediumPhase;
+}
+
+void ManagementBattle::SelectMediumPhase(){
+	if (ManagementBattle::m_stateSelect != eSelect::eMediumPhase)return;
+	
+	//媒体選択処理
+
+
+	/*
+	int cnt = 0;
+
+	if (CheckHitKey(KEY_INPUT_RETURN)){
+
+	//媒体[cnt].データ = selectdata[0]; (Type)
+	//媒体[cnt].データ = selectdata[0]; (Kind)
+
+	if (SelectCount == 3){
+	ManagementBattle::m_stateSelect = eSelect::eEnemyPhase;
+	}
+	}
+
+
+	else if (cnt == 3){
+	if (CheckHitKey(KEY_INPUT_RIGHT)){
+	cnt = 0;
+	//(画面幅 - 媒体のx座標) / 2　および　(画面高さ - (媒体のy座標+5)　の位置にカーソル表示
+	}
+	}
+	else if (cnt == 0){
+	if (CheckHitKey(KEY_INPUT_LEFT)){
+	cnt = 3;
+	}
+	}
+	else if (CheckHitKey(KEY_INPUT_RIGHT)){
+	cnt++;
+	}
+	else if (CheckHitKey(KEY_INPUT_LEFT)){
+	cnt--;
+	}
+	*/
+
+	ManagementBattle::m_stateSelect = eSelect::eEnemyPhase;
+}
+
+void ManagementBattle::SelectEnemyPhase(){
+	if (ManagementBattle::m_stateSelect != eSelect::eEnemyPhase)return;
+	
+	//敵選択処理
+
+}
+
 //////////////////////////////////
 //実際の戦闘処理（ダメージ計算とか）
 /////////////////////////////////
@@ -134,36 +204,13 @@ void ManagementBattle::BattlePhase(){
 }
 
 
-void ManagementBattle::SelectCardPhase(){
-	if (ManagementBattle::m_stateSelect != eSelect::eCardPhase)return;
-
-	//カード選択処理
-
-	ManagementBattle::m_stateSelect = eSelect::eMediumPhase;
-}
-
-void ManagementBattle::SelectMediumPhase(){
-	if (ManagementBattle::m_stateSelect != eSelect::eMediumPhase)return;
-	
-	//媒体選択処理
-
-	ManagementBattle::m_stateSelect = eSelect::eEnemyPhase;
-}
-void ManagementBattle::SelectEnemyPhase(){
-	if (ManagementBattle::m_stateSelect != eSelect::eEnemyPhase)return;
-	
-	//敵選択処理
-
-}
-
-
 
 void ManagementBattle::EndBattle(){
 	if (ManagementBattle::m_stateBattle != eBattleState::eEndBattle)return;
-
+	//戦闘終了処理
 	
 
-	ManagementBattle::m_stateBattle = eBattleState::eDrawPhase;
+	ManagementBattle::m_stateBattle = eBattleState::eInitPhase;
 
 	ChangeScene(ManagementScene::ChangeSceneData(
 		ManagementStart::m_sceneName, Transition::State::BlackIn, Transition::State::BlackOut));
