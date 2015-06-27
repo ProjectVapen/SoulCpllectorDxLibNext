@@ -22,7 +22,7 @@ m_changeSceneData(){
 
 	/*	最初はタイトル画面からスタート	*/
 	m_pCurrentManagement = Find(ManagementTitle::m_sceneName);
-
+	m_pFadeIn->Start(Transition::State::BlackIn);
 }
 
 
@@ -62,59 +62,72 @@ std::shared_ptr<ManagementBase> ManagementScene::Find(const std::string& name){
 	return findScene->second;
 }
 
+// シーンを切り替える
+// 次に行くシーンの登録名
 void ManagementScene::ChangeScene(const ChangeSceneData& changeData){
+
+
 
 	m_pNextManagement = Find(changeData.m_name);
 
-	m_pFadeIn->Start(changeData.m_fadeInState);
+
+	m_pFadeOut->Start(changeData.m_fadeOutState);
 	
 
 	m_changeSceneData = changeData;
-	m_stateScene = eState::eInit;
+	m_stateScene = eState::eFadeOut;
 
 }
 
 void ManagementScene::Init(){
+	
+	
 	if (m_stateScene != eState::eInit)return;
 
-	m_pCurrentManagement->Init();
-	m_pCurrentManagement->Render();
+	m_pCurrentManagement->Init();	//初期化処理
+	m_pCurrentManagement->Render();	//それぞれのシーンの背景描画
 
-	m_pFadeOut->Start(m_changeSceneData.m_fadeOutState);
-	
-	
+
 	m_stateScene = eState::eUpData;
+	
+	
 }
 
-//ここが実際のメイン
+
 void ManagementScene::UpDate(){
-	Init();
-
-
+	
 	if (m_stateScene != eState::eUpData)return;
-
-	/*	フェードイン・アウト処理*/
-	m_pFadeIn->UpData();
-	m_pFadeOut->UpData();
-
 	m_pCurrentManagement->UpDate();
 
 	WaitKey();
+	
+}
+
+
+
+
+void ManagementScene::FadeOut(){
+
+	if (m_stateScene != eState::eFadeOut)return;
+	
+	m_pCurrentManagement->Render();
+	m_pFadeOut->UpData();
 
 	if (m_pFadeOut->IsEnd())
 	{
-		MessageBox(NULL, "NextScene！", "デバッグ", MB_OK);
-		m_stateScene = eState::ePrevDelete;
-		PrevDelete();
-
+		
 		m_pCurrentManagement = m_pNextManagement;
+	
 		m_stateScene = eState::eInit;
 	}
 }
 
-void ManagementScene::PrevDelete(){
-	if (m_stateScene != eState::ePrevDelete)return;
-	m_pCurrentManagement->ImageDelete();
 
+void ManagementScene::Loop(){
+	FadeOut();
+
+	Init();
+
+	UpDate();
 }
 

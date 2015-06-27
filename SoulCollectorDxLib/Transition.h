@@ -30,10 +30,10 @@ class Transition{
 
 		//フェード状態
 		State m_state;
-		int m_fadeValue;
 
-		const int m_fadeOutValue;
-		const int m_fadeInValue;
+
+		int m_fadeOutValue;
+		int m_fadeInValue;
 
 		bool b_fade;
 };

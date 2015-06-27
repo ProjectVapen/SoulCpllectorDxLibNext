@@ -86,7 +86,7 @@ void ManagementBattle::DrawPhase(){
 	if (ManagementBattle::m_stateBattle != eBattleState::eDrawPhase)return;
 
 	//ドローの処理
-	MessageBox(NULL, "俺のターンドロー！", "デバッグ", MB_OK);
+
 	ManagementBattle::m_stateBattle = eBattleState::eSelectPhase;
 }
 
@@ -107,7 +107,7 @@ void ManagementBattle::TurnEnd(){
 	if (ManagementBattle::m_stateBattle != eBattleState::eTurnEnd)return;
 
 	//ターン終了処理
-	MessageBox(NULL, "ターンエンド！", "デバッグ", MB_OK);
+
 	ManagementBattle::m_stateBattle = eBattleState::eEnemyPhase;
 }
 
@@ -118,7 +118,7 @@ void ManagementBattle::EnemyPhase(){
 	if (ManagementBattle::m_stateBattle != eBattleState::eEnemyPhase)return;
 
 	//Enemyの思考処理
-	MessageBox(NULL, "我を甘く見るなよ！（スライム）", "デバッグ", MB_OK);
+
 	ManagementBattle::m_stateBattle = eBattleState::eBattlePhase;
 }
 
@@ -129,7 +129,7 @@ void ManagementBattle::BattlePhase(){
 	if (ManagementBattle::m_stateBattle != eBattleState::eBattlePhase)return;
 
 	//ダメージ計算とか死亡判定
-	MessageBox(NULL, "戦闘中！", "デバッグ", MB_OK);
+
 	ManagementBattle::m_stateBattle = eBattleState::eEndBattle;
 }
 
@@ -138,7 +138,7 @@ void ManagementBattle::SelectCardPhase(){
 	if (ManagementBattle::m_stateSelect != eSelect::eCardPhase)return;
 
 	//カード選択処理
-	MessageBox(NULL, "俺はこのカードを選ぶぜ！", "デバッグ", MB_OK);
+
 	ManagementBattle::m_stateSelect = eSelect::eMediumPhase;
 }
 
@@ -146,24 +146,25 @@ void ManagementBattle::SelectMediumPhase(){
 	if (ManagementBattle::m_stateSelect != eSelect::eMediumPhase)return;
 	
 	//媒体選択処理
-	MessageBox(NULL, "選んだカードをこいつにセット！", "デバッグ", MB_OK);
+
 	ManagementBattle::m_stateSelect = eSelect::eEnemyPhase;
 }
 void ManagementBattle::SelectEnemyPhase(){
 	if (ManagementBattle::m_stateSelect != eSelect::eEnemyPhase)return;
 	
 	//敵選択処理
-	MessageBox(NULL, "お前はあいつを攻撃するんだ！", "デバッグ", MB_OK);
+
 }
 
 
 
 void ManagementBattle::EndBattle(){
 	if (ManagementBattle::m_stateBattle != eBattleState::eEndBattle)return;
-	MessageBox(NULL, "戦闘終了！", "デバッグ", MB_OK);
+
 	
 
 	ManagementBattle::m_stateBattle = eBattleState::eDrawPhase;
+
 	ChangeScene(ManagementScene::ChangeSceneData(
 		ManagementStart::m_sceneName, Transition::State::BlackIn, Transition::State::BlackOut));
 }

@@ -36,7 +36,9 @@ class ManagementScene
 			Transition::State m_fadeOutState;
 		};
 
-		void UpDate();
+		//実際のメインループ
+		void Loop();
+		
 
 		//登録の削除
 		static void Delete(const std::string& name);
@@ -52,12 +54,18 @@ class ManagementScene
 		//検索して取得
 		static std::shared_ptr<ManagementBase> Find(const std::string& name);
 
-		//初期化
-		void Init();
 		
-		//前の状態を削除
-		void PrevDelete();
+		void Init();		//初期化
+		
+		
+		void UpDate();		//更新処理
 
+		
+		void PrevDelete();	//前の状態を削除
+
+		void FadeOut();		//フェードアウト処理
+		void FadeIn();		//フェードイン処理
+		//現在の処理状態　
 		typedef enum class _EState{
 
 			eInit,
@@ -76,8 +84,7 @@ class ManagementScene
 		
 		std::unique_ptr<Transition> m_pFadeIn;
 		std::unique_ptr<Transition> m_pFadeOut;
-		void FadeIn();
-		void FadeOut();
+
 		ChangeSceneData m_changeSceneData;
 };
 

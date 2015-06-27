@@ -13,5 +13,5 @@ AppManager::~AppManager(){
 
 void AppManager::AppUpData(){
 
-	m_pManagScene->UpDate();
+	m_pManagScene->Loop();
 }

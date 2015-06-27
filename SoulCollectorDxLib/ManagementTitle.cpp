@@ -23,8 +23,7 @@ void ManagementTitle::PushKeyState(AppController::eGetController pushKey){
 }
 
 void ManagementTitle::PushKeyState(){
-	
-//	pApp->m_pAppData->IsUpData(true);
+
 }
 
 void ManagementTitle::Init(){
@@ -40,9 +39,10 @@ bool ManagementTitle::Render(){
 
 void ManagementTitle::UpDate(){
 
-
+	
 	ChangeScene(ManagementScene::ChangeSceneData(
 		ManagementStart::m_sceneName, Transition::State::BlackIn, Transition::State::BlackOut));
+		
 }
 
 void ManagementTitle::ImageDelete(){
